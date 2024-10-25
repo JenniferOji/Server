@@ -17,16 +17,48 @@ app.use((err, req, res, next) => {
 //when theres a get url it executes the arrow function 
 //        request and response
 app.get('/', (req, res) => {
-    res.send('Welcome to Data  & Querying');
+    res.send('Welcome to Data Representation & Querying');
 });
 
 //a parameter as part of our url
-app.get('/hello/:Jenny', (req, res) => {
+app.get('/hello/:name/:sname', (req, res) => {
     const name = req.params.name;
     const sname = req.params.sname
     res.send(`Hello ${name} ${sname}`);
 });
 
+app.get('/api/movies', (req, res) => {
+    const movies = [
+        {
+            "Title": "Avengers: Infinity War",
+            "Year": "2018",
+            "imdbID": "tt4154756",
+            "Type": "movie",
+            "Poster": "https://example.com/poster1.jpg"
+        },
+        {
+            "Title": "Captain America: Civil War",
+            "Year": "2016",
+            "imdbID": "tt3498820",
+            "Type": "movie",
+            "Poster": "https://example.com/poster2.jpg"
+        },
+        {
+            "Title": "World War Z",
+            "Year": "2013",
+            "imdbID": "tt0816711",
+            "Type": "movie",
+            "Poster": "https://example.com/poster3.jpg"
+        }
+    ];
+    res.json({ movies });
+});
+
+const path = require('path');
+
+app.get('/index', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
 
 //listen to http request coming from the port 
 app.listen(port, () => {
