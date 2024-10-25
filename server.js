@@ -7,11 +7,16 @@ const app = express();
 const port = 3000;
 
 //listening for errors
+//USE HAS TO BE AT THE TOP OR ELSE THE PROGRAM WONT WORK 
 app.use((err, req, res, next) => {
     console.error(err.stack);
     //error on the server status 500 is the message to debug it  
     res.status(500).send('Something went wrong!');
 });
+
+//for the post to parse the body of the message 
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //listening for request to come in a get method in a url 
 //when theres a get url it executes the arrow function 
@@ -54,6 +59,7 @@ app.get('/api/movies', (req, res) => {
     res.json({ movies });
 });
 
+//getting the path of the index file 
 const path = require('path');
 app.get('/index', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
@@ -64,6 +70,14 @@ app.get('/name', (req, res) => {
     const firstname = req.query.firstname;
     const lastname = req.query.lastname;
     res.send(`Hello ${firstname} ${lastname}`);
+});
+
+// listening for a post method coming in 
+//much better way of sending sensitive data to the server 
+app.post('/name', (req, res) => {
+    const firstname = req.body.firstname;
+    const lastname = req.body.lastname;
+    res.send(`Hi ${firstname} ${lastname}`);
 });
 //listen to http request coming from the port 
 app.listen(port, () => {
