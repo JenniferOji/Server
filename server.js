@@ -55,11 +55,16 @@ app.get('/api/movies', (req, res) => {
 });
 
 const path = require('path');
-
 app.get('/index', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+//handling the get request for name 
+app.get('/name', (req, res) => {
+    const firstname = req.query.firstname;
+    const lastname = req.query.lastname;
+    res.send(`Hello ${firstname} ${lastname}`);
+});
 //listen to http request coming from the port 
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
